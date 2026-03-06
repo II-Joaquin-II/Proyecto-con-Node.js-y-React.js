@@ -1,0 +1,15 @@
+import express from 'express';
+import users from './data/users';
+
+const app = express();
+
+app.get('/', (req, res) => {
+  res.json('Hola');
+});
+
+app.get('/users', (req, res) => {
+  res.json(users);
+});
+
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log('Server running on port ' + port));
