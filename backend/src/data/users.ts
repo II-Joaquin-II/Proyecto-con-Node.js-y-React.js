@@ -15,6 +15,16 @@ const users: User[] = [
         name: "Maria",
         age: 25,
     },
+    {
+        id: 2,
+        name: "Juan",
+        age: 33,
+    },
+    {
+        id: 3,
+        name: "Luis",
+        age: 22,
+    },
 ];
 
 export default users;
