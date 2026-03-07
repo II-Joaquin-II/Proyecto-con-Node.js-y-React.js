@@ -1,7 +1,7 @@
 import '../stylesheets/UserCards.css';
 
 interface Props {
-  name: string;
+  name: String;
   age: number;
 }
 
