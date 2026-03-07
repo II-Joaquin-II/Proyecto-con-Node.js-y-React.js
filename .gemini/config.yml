@@ -1,0 +1,29 @@
+# .gemini/gemini.yml
+
+version: "1.0"
+project_context:
+  name: "Sistema Fullstack - Alex"
+  description: "Proyecto de Ingeniería de Sistemas con arquitectura desacoplada."
+  technologies: 
+    - React (Vite)
+    - TypeScript
+    - Node.js
+    - CSS Modules
+
+behavior:
+  language: "es-ES"
+  coding_style:
+    functions: "arrow-functions"
+    typescript: "strict"
+    styling: "BEM for CSS"
+  tone: "technical_peer"
+
+rules:
+  - "Siempre verificar que los componentes de React tengan las interfaces de Props definidas."
+  - "Sugerir nombres de commits siguiendo el estándar de Conventional Commits."
+  - "Considerar que el backend y el frontend están en carpetas separadas en la raíz."
+
+exclusions:
+  - "**/node_modules/**"
+  - "**/dist/**"
+  - "**/.git/**"
