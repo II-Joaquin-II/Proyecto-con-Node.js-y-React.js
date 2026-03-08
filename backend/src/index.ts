@@ -53,5 +53,29 @@ app.post('/api/users', (req, res) => {
 
 });
 
+//editar usuario
+app.put('/api/users/:id', (req, res) => {
+  const { id } = req.params;
+  const { name, age } = req.body;
+
+  const userIndex = users.findIndex(u => u.id === Number(id));
+  if (userIndex === -1) {
+    return res.status(404).json({ message: 'Usuario no encontrado' });
+  }
+
+});
+
+//eliminar usuario
+app.delete('/api/users/:id', (req, res) => {
+  const { id } = req.params;
+  const userIndex = users.findIndex(u => u.id === Number(id));
+  if (userIndex === -1) {
+    return res.status(404).json({ message: 'Usuario no encontrado' });
+  }
+  users.splice(userIndex, 1);
+  res.json({ message: 'Usuario eliminado' });
+
+});
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log('Server running on port ' + port));
