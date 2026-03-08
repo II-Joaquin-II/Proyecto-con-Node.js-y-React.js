@@ -8,19 +8,22 @@ project_context:
     - React (Vite)
     - TypeScript
     - Node.js
-    - CSS Modules
+    - Tailwind CSS v4 # Actualizado porque estoy usando Tailwind v4
 
 behavior:
   language: "es-ES"
+  # Añadimos una instrucción para forza el español en todas las respuestas y comentarios
+  instructions: "Todas tus respuestas, revisiones de código y comentarios en el Pull Request deben ser exclusivamente en español."
   coding_style:
     functions: "arrow-functions"
     typescript: "strict"
-    styling: "BEM for CSS"
+    styling: "Tailwind CSS v4" # <-- Cambiado de BEM a Tailwind
   tone: "technical_peer"
 
 rules:
+  - "Los comentarios de revisión deben estar en español."
   - "Siempre verificar que los componentes de React tengan las interfaces de Props definidas."
-  - "Sugerir nombres de commits siguiendo el estándar de Conventional Commits."
+  - "Sugerir nombres de commits siguiendo el estándar de Conventional Commits en inglés (feat:, fix:, etc) pero explicados en español."
   - "Considerar que el backend y el frontend están en carpetas separadas en la raíz."
 
 exclusions:
