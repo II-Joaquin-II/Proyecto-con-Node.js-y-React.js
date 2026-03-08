@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+@theme {
+  --color-background: var(--color-slate-400);
+}
+
+body {
+    background-color: var(--color-background);
+}
