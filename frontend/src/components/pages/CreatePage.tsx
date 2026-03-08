@@ -37,7 +37,7 @@ const CreatePage = () => {
                 autoClose: 3000,
             });
             //console.log(error);
-            setLoading
+            setLoading(false);
         }
         
     }
