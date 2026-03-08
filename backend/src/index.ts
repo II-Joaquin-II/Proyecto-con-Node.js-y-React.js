@@ -63,6 +63,9 @@ app.put('/api/users/:id', (req, res) => {
     return res.status(404).json({ message: 'Usuario no encontrado' });
   }
 
+  users[userIndex] = { id: Number(id), name, age };
+  res.json(users[userIndex]);
+
 });
 
 //eliminar usuario
