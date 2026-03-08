@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const CreatePage = () => {
 
@@ -13,17 +14,29 @@ const CreatePage = () => {
         e.preventDefault();
         
         if (name === "" || age === 0) {
-            alert("Por favor, complete todos los campos");
+            //alert("Por favor, complete todos los campos");
+            toast.error(`Por favor, complete todos los campos`, {
+                position: "top-right",
+                autoClose: 3000,
+            });
             return;
         }
         try {
             setLoading(true);
             const response= await axios.post("/api/users", {name: name, age: age})
-            alert(`Guardado ${response.data.name} Exito`);
+            //alert(`Guardado ${response.data.name} Exito`);
+            toast.success(`Guardado ${response.data.name} Exito`, {
+                position: "top-right",
+                autoClose: 3000,
+            });
             setLoading(false);
             navigate("/");
         } catch (error) {
-            console.log(error);
+            toast.error(`Error al guardar el usuario`, {
+                position: "top-right",
+                autoClose: 3000,
+            });
+            //console.log(error);
             setLoading
         }
         

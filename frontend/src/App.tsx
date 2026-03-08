@@ -2,6 +2,8 @@ import { Routes, Route, Link } from "react-router-dom";
 import HomePage from "./components/pages/HomePage";
 import CreatePage from "./components/pages/CreatePage";
 import EditPage from "./components/pages/EditPage";
+import { ToastContainer, toast } from 'react-toastify';
+
 
 
 const App = () => {
@@ -25,6 +27,8 @@ const App = () => {
                     <Route path="/edit" element={<EditPage />} />
                 </Routes>
             </div>
+            <ToastContainer />
+
 
         </div>
     );
