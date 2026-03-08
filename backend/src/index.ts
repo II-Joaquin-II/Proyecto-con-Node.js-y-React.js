@@ -6,14 +6,27 @@ const app = express();
 // Middleware para parsear JSON
 app.use(express.json());
 
+//prueba
 app.get('/api', (req, res) => {
   res.json('Hola');
 });
 
+//lista usuarios
 app.get('/api/users', (req, res) => {
   res.json(users);
 });
 
+//buscar usuario por id
+app.get('/api/users/:id', (req, res) => {
+  const { id } = req.params;
+  const user = users.find(u => u.id === Number(id));
+  if (!user) {
+    return res.status(404).json({ message: 'Usuario no encontrado' });
+  }
+  res.json(user);
+});
+
+//crear usuario
 app.post('/api/users', (req, res) => {
   try {
     const { name, age } = req.body;
