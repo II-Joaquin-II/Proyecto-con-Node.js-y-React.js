@@ -1,4 +1,4 @@
-import { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import User from "../User";
 import { Link } from "react-router-dom";
@@ -47,7 +47,7 @@ const HomePage = () => {
                                 {
                                     users.map((user, index) => {
                                         return (
-                                            <User key={index} user={user} />
+                                            <User key={index} user={user} getUsers={getUsers} />
                                         )
                                     })
                                 }

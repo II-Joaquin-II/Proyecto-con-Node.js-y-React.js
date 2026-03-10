@@ -47,7 +47,7 @@ const EditPage = () => {
             });
             setLoading(false);
             navigate("/");
-            
+
         } catch (error) {
             setLoading(false);
             toast.error(`Error al editar el usuario`, {
@@ -68,29 +68,35 @@ const EditPage = () => {
             <h2 className="font-semibold text-2xl mb-4 block text-center">
                 Editar Usuario - {user.name}
             </h2>
-            <form onSubmit={UpdateUser}>
-                <div className="space-y-2">
-                    <div>
-                        <label>Nombre</label>
-                        <input type="text" value={user.name} onChange={(e) => setUser({ ...user, name: e.target.value })} id="name" className="w-full border p-3 text-gray-700 rounded focus:outline-none focus:shadow-outline focus:border-blue-500 placeholder:text-gray-500 placeholder-gray-400" placeholder="Ingrese el nombre" />
-                    </div>
+            {
+                loading ? ("Cargando...") : (
+                    <>
+                        <form onSubmit={UpdateUser}>
+                            <div className="space-y-2">
+                                <div>
+                                    <label>Nombre</label>
+                                    <input type="text" value={user.name} onChange={(e) => setUser({ ...user, name: e.target.value })} id="name" className="w-full border p-3 text-gray-700 rounded focus:outline-none focus:shadow-outline focus:border-blue-500 placeholder:text-gray-500 placeholder-gray-400" placeholder="Ingrese el nombre" />
+                                </div>
 
-                    <div>
-                        <label>Edad</label>
-                        <input type="number" value={user.age} onChange={(e) => setUser({ ...user, age: Number(e.target.value) })} id="age" className="w-full border p-3 text-gray-700 rounded focus:outline-none focus:shadow-outline focus:border-blue-500 placeholder:text-gray-500 placeholder-gray-400" placeholder="Ingrese la edad" />
-                    </div>
+                                <div>
+                                    <label>Edad</label>
+                                    <input type="number" value={user.age} onChange={(e) => setUser({ ...user, age: Number(e.target.value) })} id="age" className="w-full border p-3 text-gray-700 rounded focus:outline-none focus:shadow-outline focus:border-blue-500 placeholder:text-gray-500 placeholder-gray-400" placeholder="Ingrese la edad" />
+                                </div>
 
-                    <div>
-                        {!loading && (
-                            <button className="block w-full text-center shadow-md text-sm bg-blue-700 text-white rounded-sm px-4 py-2 font-bold hover:bg-blue-600 hover:cursor-pointer">
-                                Editar
-                            </button>
-                        )}
-                    </div>
+                                <div>
+                                    {!loading && (
+                                        <button className="block w-full text-center shadow-md text-sm bg-blue-700 text-white rounded-sm px-4 py-2 font-bold hover:bg-blue-600 hover:cursor-pointer">
+                                            Editar
+                                        </button>
+                                    )}
+                                </div>
 
-                </div>
+                            </div>
+                        </form>
+                    </>
+                )
+            }
 
-            </form>
         </div>
     );
 };
