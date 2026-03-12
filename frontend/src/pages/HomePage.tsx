@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import User from "../User";
+import User from "../components/User";
 import { Link } from "react-router-dom";
 
 interface User {
