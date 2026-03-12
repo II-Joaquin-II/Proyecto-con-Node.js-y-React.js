@@ -1,3 +1,4 @@
+/*
 interface User {
     id: number;
     name: String;
@@ -28,3 +29,4 @@ const users: User[] = [
 ];
 
 export default users;
+*/
