@@ -1,7 +1,7 @@
 import { Routes, Route, Link } from "react-router-dom";
-import HomePage from "./components/pages/HomePage";
-import CreatePage from "./components/pages/CreatePage";
-import EditPage from "./components/pages/EditPage";
+import HomePage from "./pages/HomePage";
+import CreatePage from "./pages/CreatePage";
+import EditPage from "./pages/EditPage";
 import { ToastContainer, toast } from 'react-toastify';
 
 

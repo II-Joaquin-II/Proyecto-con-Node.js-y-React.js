@@ -1,84 +1,22 @@
 import express from 'express';
-import users from './data/users';
+import * as UserController from './controllers/user'; 
 
 const app = express();
-
-// Middleware para parsear JSON
 app.use(express.json());
 
-//prueba
-app.get('/api', (req, res) => {
-  res.json('Hola');
-});
+// ruta de prueba
+app.get('/api', (req, res) => res.json('Hola'));
 
-//lista usuarios
-app.get('/api/users', (req, res) => {
-  res.json(users);
-});
 
-//buscar usuario por id
-app.get('/api/users/:id', (req, res) => {
-  const { id } = req.params;
-  const user = users.find(u => u.id === Number(id));
-  if (!user) {
-    return res.status(404).json({ message: 'Usuario no encontrado' });
-  }
-  res.json(user);
-});
+//listado de usuarios
+app.get('/api/users', UserController.getUsers);
 
-//crear usuario
-app.post('/api/users', (req, res) => {
-  try {
-    const { name, age } = req.body;
+//operaciones de usuarios CRUD 
+app.get('/api/users/:id', UserController.getUserById);
+app.post('/api/users', UserController.createUser);
+app.put('/api/users/:id', UserController.updateUser);
+app.delete('/api/users/:id', UserController.deleteUser);
 
-    if (!name || !age) {
-      return res.status(400).json({ message: 'Faltan datos' });
-    }
-
-    const newUser = {
-      id: Date.now(),
-      name,
-      age,
-    };
-
-    users.push(newUser);
-    console.log('Usuario guardado con exito', newUser);
-
-    res.status(201).json(newUser);
-
-  } catch (error) {
-    res.status(500).json({ message: 'Error al guardar el usuario' });
-
-  }
-
-});
-
-//editar usuario
-app.put('/api/users/:id', (req, res) => {
-  const { id } = req.params;
-  const { name, age } = req.body;
-
-  const userIndex = users.findIndex(u => u.id === Number(id));
-  if (userIndex === -1) {
-    return res.status(404).json({ message: 'Usuario no encontrado' });
-  }
-
-  users[userIndex] = { id: Number(id), name, age };
-  res.json(users[userIndex]);
-
-});
-
-//eliminar usuario
-app.delete('/api/users/:id', (req, res) => {
-  const { id } = req.params;
-  const userIndex = users.findIndex(u => u.id === Number(id));
-  if (userIndex === -1) {
-    return res.status(404).json({ message: 'Usuario no encontrado' });
-  }
-  users.splice(userIndex, 1);
-  res.json({ message: 'Usuario eliminado' });
-
-});
-
+// iniciar el servidor
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log('Server running on port ' + port));
