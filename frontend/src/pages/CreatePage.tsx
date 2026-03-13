@@ -6,6 +6,8 @@ import { toast } from "react-toastify";
 const CreatePage = () => {
 
     const [name, setName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
     const [age, setAge] = useState(0);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -13,7 +15,7 @@ const CreatePage = () => {
     const saveUser = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         
-        if (name === "" || age === 0) {
+        if (name === "" || lastName === "" || email === "" || age === 0) {
             //alert("Por favor, complete todos los campos");
             toast.error(`Por favor, complete todos los campos`, {
                 position: "top-right",
@@ -23,7 +25,7 @@ const CreatePage = () => {
         }
         try {
             setLoading(true);
-            const response= await axios.post("/api/users", {name: name, age: age})
+            const response= await axios.post("/api/users", {name: name, last_name: lastName, email: email, age: age})
             //alert(`Guardado ${response.data.name} Exito`);
             toast.success(`Guardado ${response.data.name} Exito`, {
                 position: "top-right",
@@ -52,6 +54,16 @@ const CreatePage = () => {
                     <div>
                         <label>Nombre</label>
                         <input type="text" value={name} onChange={(e) => setName(e.target.value)} id="name" className="w-full border p-3 text-gray-700 rounded focus:outline-none focus:shadow-outline focus:border-blue-500 placeholder:text-gray-500 placeholder-gray-400" placeholder="Ingrese el nombre" />
+                    </div>
+
+                    <div>
+                        <label>Apellido</label>
+                        <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} id="last_name" className="w-full border p-3 text-gray-700 rounded focus:outline-none focus:shadow-outline focus:border-blue-500 placeholder:text-gray-500 placeholder-gray-400" placeholder="Ingrese el apellido" />
+                    </div>
+
+                    <div>
+                        <label>Email</label>
+                        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} id="email" className="w-full border p-3 text-gray-700 rounded focus:outline-none focus:shadow-outline focus:border-blue-500 placeholder:text-gray-500 placeholder-gray-400" placeholder="Ingrese el email" />
                     </div>
 
                     <div>

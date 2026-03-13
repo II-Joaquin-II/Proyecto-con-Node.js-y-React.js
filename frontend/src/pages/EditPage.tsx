@@ -5,6 +5,8 @@ import { toast } from "react-toastify";
 
 interface UserState {
     name: string;
+    last_name?: string;
+    email?: string;
     age: number | "";
 }
 
@@ -14,6 +16,8 @@ const EditPage = () => {
     const [loading, setLoading] = useState(false);
     const [user, setUser] = useState<UserState>({
         name: "",
+        last_name: "",
+        email: "",
         age: "",
     });
 
@@ -23,6 +27,8 @@ const EditPage = () => {
             const response = await axios.get(`/api/users/${id}`);
             setUser({
                 name: response.data.name,
+                last_name: response.data.last_name,
+                email: response.data.email,
                 age: response.data.age,
             });
             setLoading(false);
@@ -76,6 +82,16 @@ const EditPage = () => {
                                 <div>
                                     <label>Nombre</label>
                                     <input type="text" value={user.name} onChange={(e) => setUser({ ...user, name: e.target.value })} id="name" className="w-full border p-3 text-gray-700 rounded focus:outline-none focus:shadow-outline focus:border-blue-500 placeholder:text-gray-500 placeholder-gray-400" placeholder="Ingrese el nombre" />
+                                </div>
+
+                                <div>
+                                    <label>Apellido</label>
+                                    <input type="text" value={user.last_name} onChange={(e) => setUser({ ...user, last_name: e.target.value })} id="last_name" className="w-full border p-3 text-gray-700 rounded focus:outline-none focus:shadow-outline focus:border-blue-500 placeholder:text-gray-500 placeholder-gray-400" placeholder="Ingrese el apellido" />
+                                </div>
+
+                                <div>
+                                    <label>Email</label>
+                                    <input type="email" value={user.email} onChange={(e) => setUser({ ...user, email: e.target.value })} id="email" className="w-full border p-3 text-gray-700 rounded focus:outline-none focus:shadow-outline focus:border-blue-500 placeholder:text-gray-500 placeholder-gray-400" placeholder="Ingrese el email" />
                                 </div>
 
                                 <div>

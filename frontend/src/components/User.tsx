@@ -6,6 +6,8 @@ import Swal from "sweetalert2";
 interface UserData {
     id: number;
     name: String;
+    last_name: String;
+    email: String;
     age: number;
 }
 
@@ -50,6 +52,8 @@ const User = ({ user, getUsers }: UserProps) => {
             <div className="px-4 pt-2 pb-4">
                 <h2 className="text font-semibold">{user.name}</h2>
                 <div className="text-sm">Edad: {user.age}</div>
+                <div className="text-sm">Apellido: {user.last_name}</div>
+                <div className="text-sm">Email: {user.email}</div>
                 <div className="mt-2 flex gap-4">
                     <Link to={`/edit/${user.id}`} className="inline-block w-full text-center shadow-md text-sm bg-gray-700 text-white rounded-sm px-4 py-2 font-bold hover:bg-gray-600 hover:cursor-pointer">
                         Editar
