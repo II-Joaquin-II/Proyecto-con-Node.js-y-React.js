@@ -3,27 +3,35 @@ import { User } from '@shared/types';
 
 // simulacion de datos
 const users: User[] = [
-    {
-        id: 0,
-        name: "Alex",
-        age: 30,
-    },
-    {
-        id: 1,
-        name: "Maria",
-        age: 25,
-    },
-    {
-        id: 2,
-        name: "Juan",
-        age: 33,
-    },
-    {
-        id: 3,
-        name: "Luis",
-        age: 22,
-    },
-]; 
+  {
+    id: 0,
+    name: "Alex",
+    last_name: "Gomez",
+    email: "alex123@gmail.com",
+    age: 30,
+  },
+  {
+    id: 1,
+    name: "Maria",
+    last_name: "Mesa",
+    email: "maria22@gmail.com",
+    age: 25,
+  },
+  {
+    id: 2,
+    name: "Juan",
+    last_name: "Castillo",
+    email: "juan45@gmail.com",
+    age: 33,
+  },
+  {
+    id: 3,
+    name: "Luis",
+    last_name: "Perez",
+    email: "luis67@gmail.com",
+    age: 22,
+  },
+];
 
 // Controladores
 
@@ -45,11 +53,11 @@ export const getUserById = (req: Request, res: Response) => {
 //crear usuario
 export const createUser = (req: Request, res: Response) => {
   try {
-    const { name, age } = req.body as User;
-    if (!name || !age) {
+    const { name, last_name, email, age } = req.body as User;
+    if (!name || !last_name || !email || !age) {
       return res.status(400).json({ message: 'Faltan datos' });
     }
-    const newUser: User = { id: Date.now(), name, age };
+    const newUser: User = { id: Date.now(), name, last_name, email, age };
     users.push(newUser);
     res.status(201).json(newUser);
   } catch (error) {
@@ -60,12 +68,12 @@ export const createUser = (req: Request, res: Response) => {
 // actualizar usuario
 export const updateUser = (req: Request, res: Response) => {
   const { id } = req.params;
-  const { name, age } = req.body as User;
+  const { name, last_name, email, age } = req.body as User;
   const userIndex = users.findIndex(u => u.id === Number(id));
   if (userIndex === -1) {
     return res.status(404).json({ message: 'Usuario no encontrado' });
   }
-  users[userIndex] = { id: Number(id), name, age };
+  users[userIndex] = { id: Number(id), name, last_name, email, age };
   res.json(users[userIndex]);
 };
 

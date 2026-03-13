@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 interface User {
     id: number;
     name: String;
+    last_name: String;
+    email: String;
     age: number;
 }
 
