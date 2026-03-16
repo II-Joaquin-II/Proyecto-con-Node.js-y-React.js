@@ -1,89 +1,90 @@
 import { Request, Response } from 'express';
-import { User } from '@shared/types';
-
-// simulacion de datos
-const users: User[] = [
-  {
-    id: 0,
-    name: "Alex",
-    last_name: "Gomez",
-    email: "alex123@gmail.com",
-    age: 30,
-  },
-  {
-    id: 1,
-    name: "Maria",
-    last_name: "Mesa",
-    email: "maria22@gmail.com",
-    age: 25,
-  },
-  {
-    id: 2,
-    name: "Juan",
-    last_name: "Castillo",
-    email: "juan45@gmail.com",
-    age: 33,
-  },
-  {
-    id: 3,
-    name: "Luis",
-    last_name: "Perez",
-    email: "luis67@gmail.com",
-    age: 22,
-  },
-];
+import prisma from '../db/prisma'; 
 
 // Controladores
 
 //listado de usuarios
-export const getUsers = (req: Request, res: Response) => {
-  res.json(users);
+export const getUsers = async (req: Request, res: Response) => {
+  try {
+    const users = await prisma.user.findMany();
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al obtener usuarios' });
+  }
 };
 
 // obtener usuario por id
-export const getUserById = (req: Request, res: Response) => {
+export const getUserById = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const user = users.find(u => u.id === Number(id));
-  if (!user) {
-    return res.status(404).json({ message: 'Usuario no encontrado' });
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: Number(id) }
+    });
+    
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al buscar el usuario' });
   }
-  res.json(user);
 };
 
 //crear usuario
-export const createUser = (req: Request, res: Response) => {
+export const createUser = async (req: Request, res: Response) => {
   try {
-    const { name, last_name, email, age } = req.body as User;
+    const { name, last_name, email, age } = req.body;
+
     if (!name || !last_name || !email || !age) {
       return res.status(400).json({ message: 'Faltan datos' });
     }
-    const newUser: User = { id: Date.now(), name, last_name, email, age };
-    users.push(newUser);
+
+    const newUser = await prisma.user.create({
+      data: {
+        name,
+        last_name,
+        email,
+        age: Number(age)
+      }
+    });
+
     res.status(201).json(newUser);
   } catch (error) {
-    res.status(500).json({ message: 'Error al guardar el usuario' });
+    console.error(error);
+    res.status(500).json({ message: 'Error al guardar el usuario (puede que el email ya exista)' });
   }
 };
 
 // actualizar usuario
-export const updateUser = (req: Request, res: Response) => {
+export const updateUser = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { name, last_name, email, age } = req.body as User;
-  const userIndex = users.findIndex(u => u.id === Number(id));
-  if (userIndex === -1) {
-    return res.status(404).json({ message: 'Usuario no encontrado' });
+  const { name, last_name, email, age } = req.body;
+
+  try {
+    const updatedUser = await prisma.user.update({
+      where: { id: Number(id) },
+      data: {
+        name,
+        last_name,
+        email,
+        age: Number(age)
+      }
+    });
+    res.json(updatedUser);
+  } catch (error) {
+    res.status(404).json({ message: 'Usuario no encontrado o error al actualizar' });
   }
-  users[userIndex] = { id: Number(id), name, last_name, email, age };
-  res.json(users[userIndex]);
 };
 
 // eliminar usuario
-export const deleteUser = (req: Request, res: Response) => {
+export const deleteUser = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const userIndex = users.findIndex(u => u.id === Number(id));
-  if (userIndex === -1) {
-    return res.status(404).json({ message: 'Usuario no encontrado' });
+  try {
+    await prisma.user.delete({
+      where: { id: Number(id) }
+    });
+    res.json({ message: 'Usuario eliminado' });
+  } catch (error) {
+    res.status(404).json({ message: 'Usuario no encontrado' });
   }
-  users.splice(userIndex, 1);
-  res.json({ message: 'Usuario eliminado' });
 };
