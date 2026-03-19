@@ -1,8 +1,6 @@
 import { Request, Response } from 'express';
 import prisma from '../db/prisma'; 
 
-// Controladores
-
 //listado de usuarios
 export const getUsers = async (req: Request, res: Response) => {
   try {
@@ -15,10 +13,10 @@ export const getUsers = async (req: Request, res: Response) => {
 
 // obtener usuario por id
 export const getUserById = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const { id } = req.params as { id: string }; 
   try {
     const user = await prisma.user.findUnique({
-      where: { id: Number(id) }
+      where: { id } 
     });
     
     if (!user) {
@@ -51,18 +49,18 @@ export const createUser = async (req: Request, res: Response) => {
     res.status(201).json(newUser);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Error al guardar el usuario (puede que el email ya exista)' });
+    res.status(500).json({ message: 'Error al guardar el usuario' });
   }
 };
 
 // actualizar usuario
 export const updateUser = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const { id } = req.params as { id: string }; 
   const { name, last_name, email, age } = req.body;
 
   try {
     const updatedUser = await prisma.user.update({
-      where: { id: Number(id) },
+      where: { id }, 
       data: {
         name,
         last_name,
@@ -78,10 +76,10 @@ export const updateUser = async (req: Request, res: Response) => {
 
 // eliminar usuario
 export const deleteUser = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const { id } = req.params as { id: string };
   try {
     await prisma.user.delete({
-      where: { id: Number(id) }
+      where: { id } 
     });
     res.json({ message: 'Usuario eliminado' });
   } catch (error) {
