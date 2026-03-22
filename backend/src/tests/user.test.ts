@@ -13,6 +13,78 @@ app.post('/api/users', UserController.createUser);
 app.put('/api/users/:id', UserController.updateUser);
 app.delete('/api/users/:id', UserController.deleteUser);
 
+describe('Testeando Usuario', () => {
+  let createdUserId: string;
+
+  //test para el endpoint POST /api/users
+  it('POST /api/users - Debe crear un nuevo usuario', async () => {
+    const newUser = {
+      name: 'Luis',
+      last_name: 'Prueba',
+      email: `test-${Date.now()}@example.com`,
+      age: 25
+    };
+
+    const response = await request(app).post('/api/users').send(newUser);
+
+    expect(response.status).toBe(201);
+    expect(response.body).toHaveProperty('id');
+    createdUserId = response.body.id; 
+  });
+
+  //test para el endpoint GET /api/users
+  it('GET /api/users - Debe retornar un arreglo de usuarios', async () => {
+    const response = await request(app).get('/api/users');
+
+    expect(response.status).toBe(200);
+    expect(Array.isArray(response.body)).toBe(true);
+    expect(response.body.length).toBeGreaterThan(0);
+  });
+
+  //test para el endpoint GET /api/users/:id
+  it('GET /api/users/:id - Debe retornar el usuario específico por UUID', async () => {
+    const response = await request(app).get(`/api/users/${createdUserId}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body.id).toBe(createdUserId);
+    expect(response.body.name).toBe('Luis');
+  });
+
+  //test para el endpoint PUT /api/users/:id
+  it('PUT /api/users/:id - Debe actualizar los datos del usuario', async () => {
+    const updatedData = {
+      name: 'Luis Modificado',
+      last_name: 'Prueba',
+      email: `updated-${Date.now()}@example.com`,
+      age: 26
+    };
+
+    const response = await request(app)
+      .put(`/api/users/${createdUserId}`)
+      .send(updatedData);
+
+    expect(response.status).toBe(200);
+    expect(response.body.name).toBe('Luis Modificado');
+    expect(response.body.age).toBe(26);
+  });
+
+  //test para el endpoint DELETE /api/users/:id
+  it('DELETE /api/users/:id - Debe eliminar al usuario y confirmar', async () => {
+    const response = await request(app).delete(`/api/users/${createdUserId}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body.message).toBe('Usuario eliminado');
+
+    const checkDeleted = await request(app).get(`/api/users/${createdUserId}`);
+    expect(checkDeleted.status).toBe(404);
+  });
+});
+
+
+/*
+
+------------ANTIGUOS TESTS----------------
+
 //test para el endpoint GET /api/users
 describe('GET /api/users', () => {
   it('debe retornar una lista de usuarios con el formato correcto', async () => {
@@ -90,3 +162,4 @@ describe('DELETE /api/users/:id', () => {
     expect(response.body).toHaveProperty('message', 'Usuario eliminado');
   });
 });
+*/
